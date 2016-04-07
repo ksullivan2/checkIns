@@ -2,12 +2,18 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Room = require('./Room');
 
+
+var RoomList = ["Djikstra", "Von Neumann", "McCarthy", "Turing", "Lovelace", "Church", "Babbage", "Hopper", "Library"]
+
+
 var App = React.createClass({
   render: function () {
     return (
       <div id='App'>
-        App
-        <Room />
+        {RoomList.map(function(room, i){
+         return <Room key={room + i} roomName={room}/>
+        	
+        })}
       </div>
     )
   }
