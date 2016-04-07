@@ -1,20 +1,20 @@
 module.exports = {
-  devtool: "eval-source-map",
-  entry: './src/index.js',
+  entry: './components/App.js',
   output: {
-    filename: 'bundle.js',
-    path: './dist/'
-  },
-  devServer: {
-    contentBase: "public/"
+  	path: './build',
+    filename: 'bundle.js'       
   },
   module: {
     loaders: [
+      { test: /\.css$/, loader: "style!css" },
       {
         test: /\.js$/,
-        include: __dirname + "/src/",
-        loader: "babel-loader"
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015', 'react', 'stage-0']
+        }
       }
     ]
   }
-}
+};
