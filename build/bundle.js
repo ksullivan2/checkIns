@@ -50,15 +50,31 @@
 	var ReactDOM = __webpack_require__(158);
 	var Room = __webpack_require__(159);
 
+	var RoomList = ["Djikstra", "Von Neumann", "McCarthy", "Turing", "Lovelace", "Church", "Babbage", "Hopper", "Library"];
+
 	var App = React.createClass({
 	  displayName: 'App',
+
+	  handleTestClick: function handleTestClick() {
+	    console.log("www.recurse.com/oauth/authorize");
+	  },
 
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      { id: 'App' },
-	      'App',
-	      React.createElement(Room, null)
+	      React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'button',
+	          { onClick: this.handleTestClick },
+	          'TEST OAUTH'
+	        )
+	      ),
+	      RoomList.map(function (room, i) {
+	        return React.createElement(Room, { key: room + i, roomName: room });
+	      })
 	    );
 	  }
 	});
@@ -19679,20 +19695,112 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var CheckInTime = __webpack_require__(160);
 
 	var Room = React.createClass({
 	  displayName: 'Room',
 
+
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { id: 'Room' },
-	      'Room'
+	      { className: 'Room', onClick: this.handleClick },
+	      React.createElement(
+	        'h3',
+	        null,
+	        this.props.roomName
+	      ),
+	      React.createElement(CheckInTime, { time: "10:30 AM" }),
+	      React.createElement(CheckInTime, { time: "1:00 PM" })
 	    );
 	  }
 	});
 
 	module.exports = Room;
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+	var Person = __webpack_require__(161);
+
+	var CheckInTime = React.createClass({
+	  displayName: "CheckInTime",
+
+	  getInitialState: function getInitialState() {
+	    return { people: [], topic: "" };
+	  },
+
+	  handleClick: function handleClick() {
+	    this.state.people.push("test");
+	    this.setState({ people: this.state.people });
+	  },
+
+	  changeTopic: function changeTopic(value) {
+	    this.setState({ topic: value });
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { className: "Room__CheckInTime" },
+	      React.createElement(
+	        "h4",
+	        null,
+	        this.props.time
+	      ),
+	      React.createElement("input", { type: "text", defaultValue: "Random Topic", onChange: this.changeTopic }),
+	      React.createElement(
+	        "button",
+	        { onClick: this.handleClick },
+	        "Join this check-in."
+	      ),
+	      this.state.people.map(function (person, index) {
+	        return React.createElement(Person, { key: index, person: person });
+	      })
+	    );
+	  }
+	});
+
+	module.exports = CheckInTime;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var Person = React.createClass({
+	  displayName: 'Person',
+
+	  getInitialState: function getInitialState() {
+	    return { people: [] };
+	  },
+
+	  handleClick: function handleClick() {
+	    this.state.people.push("test");
+	    this.setState({ people: this.state.people });
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'Person', onClick: this.handleClick },
+	      React.createElement(
+	        'p',
+	        { className: 'Person__name' },
+	        this.props.person
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Person;
 
 /***/ }
 /******/ ]);

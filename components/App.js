@@ -3,13 +3,29 @@ var ReactDOM = require('react-dom');
 var Room = require('./Room');
 
 
+
+
+
+
+
+
 var RoomList = ["Djikstra", "Von Neumann", "McCarthy", "Turing", "Lovelace", "Church", "Babbage", "Hopper", "Library"]
 
 
 var App = React.createClass({
+	handleTestClick: function(){
+		console.log("www.recurse.com/oauth/authorize")
+	},
+
+
   render: function () {
     return (
-      <div id='App'>
+    	
+
+      	<div id='App'>
+      	<div><button onClick={this.handleTestClick}>TEST OAUTH</button></div>
+      	
+
         {RoomList.map(function(room, i){
          return <Room key={room + i} roomName={room}/>
         	
