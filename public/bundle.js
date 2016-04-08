@@ -62,15 +62,6 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'App' },
-	      React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'button',
-	          { onClick: this.handleTestClick },
-	          'TEST OAUTH'
-	        )
-	      ),
 	      RoomList.map(function (room, i) {
 	        return React.createElement(Room, { key: room + i, roomName: room });
 	      })

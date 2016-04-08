@@ -21,12 +21,7 @@ var App = React.createClass({
 
   render: function () {
     return (
-    	
-
       	<div id='App'>
-      	<div><button onClick={this.handleTestClick}>TEST OAUTH</button></div>
-      	
-
         {RoomList.map(function(room, i){
          return <Room key={room + i} roomName={room}/>
         	
