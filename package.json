@@ -31,6 +31,7 @@
     "babelify": "^7.2.0",
     "eslint-plugin-react": "^3.6.2",
     "express": "^4.13.3",
+    "express-session": "^1.13.0",
     "oauth20-provider": "^0.6.0",
     "path": "^0.12.7",
     "react": "^0.14",

@@ -2,6 +2,12 @@ var express = require('express');
 var path = require('path');
 var app = express();
 app.use(express.static(__dirname+"/public/"));
+var session = require("express-session")({
+  secret: "hope and joy",
+  resave: true,
+  saveUninitialized: true
+});
+app.use(session)
 
 var PORT = process.env.PORT || 3000;
 
@@ -54,14 +60,32 @@ app.get('/auth', function (req, res) {
 
 // Callback service parsing the authorization token and asking for the access token
 app.get('/callback', function (req, res) {
-  res.sendFile(path.join(__dirname, "/pageIndexes/callback.html"));
+  // res.sendFile(path.join(__dirname, "/pageIndexes/callback.html"));
+
+
+  var code = req.query.code;
+  oauth.authCode.getToken({
+    code: code,
+    redirect_uri: credentials.redirect_uri
+  }, saveToken);
+
+  
+  function saveToken(error, result) {
+    if (error) { 
+      console.log('Access Token Error', error.message); 
+      res.redirect("/auth")}
+
+    req.session.token = oauth.accessToken.create(result);
+    res.redirect("/checkins");
+  }
 });
 
 //ONCE LOGGED IN--------------------------------------------------------------------------------------------------------
 
 
 app.get('/checkins', function(req,res) {
-  if (token !== null){
+  //check if valid token TO DO
+  if (req.session.token){
     res.sendFile(path.join(__dirname, "/pageIndexes/checkins.html"));
   }
   else {res.redirect("/auth")}
