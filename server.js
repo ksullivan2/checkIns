@@ -1,17 +1,22 @@
 var express = require('express');
 var path = require('path');
-
 var app = express();
+// app.use(express.static(path.join(__dirname, "/css")));
+app.use(express.static(__dirname+"/public/"));
 
-// app.use(express.static(path.join(__dirname, './../')));
 var PORT = process.env.PORT || 3000;
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, "/LogInIndex.html"));
+});
+
 
 
 //HEROKU
 // var credentials = {
 //  clientID: "34470edff3fc9aac0c6895b6c0fab87e27f026c33bf8a2015b2dc51905032012",
 //  clientSecret: "8fe080b72de0b753613d3c6397aadce961ca8f524068480eec8dbf42f607b1e9",
-//  site: "http://recurse.com",
+//  site: "https://recurse.com",
 //  redirect_uri: 'https://rccheckins.herokuapp.com/callback'
 // }
 
@@ -26,7 +31,7 @@ var credentials = {
 }
 
 
-
+//OAUTH------------------------------------------------------------------------------------------------------------------
 var oauth = require('simple-oauth2')(credentials)
 
 // Authorization oauth2 URI
@@ -38,48 +43,41 @@ var authorization_uri = oauth.authCode.authorizeURL({
 
 // Initial page redirecting
 app.get('/auth', function (req, res) {
-	console.log("/auth")
+  console.log("/auth")
     res.redirect(authorization_uri);
 })
 
 
 var token; 
 
-
-
-
 // Callback service parsing the authorization token and asking for the access token
 app.get('/callback', function (req, res) {
-	console.log("/callback")
   var code = req.query.code;
-  console.log("Code ", code)
-
   oauth.authCode.getToken({
     code: code,
     redirect_uri: credentials.redirect_uri
   }, saveToken);
 
-
-   
-
+  
   function saveToken(error, result) {
-    if (error) { console.log('Access Token Error', error.message); }
+    if (error) { 
+      console.log('Access Token Error', error.message); 
+      res.redirect("/auth")}
     token = oauth.accessToken.create(result);
+    res.redirect("/checkins");
   }
 
-  res.send("TEST")
+  
 });
 
+//ONCE LOGGED IN--------------------------------------------------------------------------------------------------------
 
-app.get('/', function (req, res) {
-	console.log("what GET SHOULD be fetching")
-  res.send('Hello<br><a href="/auth">Log in with RC</a>');
+
+app.get('/checkins', function(req,res) {
+  res.send(token)
+  console.log(token)
+  // res.sendFile(path.join(__dirname, "/checkInsIndex.html"));
 });
-
-// app.get('/', function(req,res) {
-//   console.log("IN COMMMENT")
-//   res.sendFile('/index.html');
-// });
 
 app.listen(PORT, function() {
   console.log('Server is listening on port '+ PORT);
