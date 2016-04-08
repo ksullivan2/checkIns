@@ -11,7 +11,7 @@ var credentials = {
  clientID: "6135730e4b5a495af7f6e6596253e475d2aab271c9e7f060df5360fc230c8379",
  clientSecret: "4fdf5d95fe111b2caabf8deea68061ea35fcc1d00a5c3270294965839360a4e8",
  site: "http://recurse.com",
- redirect_uri: 'https://rccheckins.herokuapp.com'
+ redirect_uri: 'https://rccheckins.herokuapp.com/callback'
 }
 
 var oauth = require('simple-oauth2')(credentials)
@@ -35,12 +35,13 @@ app.get('/callback', function (req, res) {
 
   oauth2.authCode.getToken({
     code: code,
-    redirect_uri: 'http://localhost:3000/callback'
+    redirect_uri: 'https://rccheckins.herokuapp.com/callback'
   }, saveToken);
 
   function saveToken(error, result) {
     if (error) { console.log('Access Token Error', error.message); }
     token = oauth2.accessToken.create(result);
+    console.log("TOKEN IS ",token)
   }
 });
 

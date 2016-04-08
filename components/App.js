@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Room = require('./Room');
+var $ = require ('jquery');
 
 
 
@@ -14,7 +15,7 @@ var RoomList = ["Djikstra", "Von Neumann", "McCarthy", "Turing", "Lovelace", "Ch
 
 var App = React.createClass({
 	handleTestClick: function(){
-		console.log("www.recurse.com/oauth/authorize")
+		
 	},
 
 
