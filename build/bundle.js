@@ -49,15 +49,14 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var Room = __webpack_require__(159);
+	// var $ = require ('jquery');
 
 	var RoomList = ["Djikstra", "Von Neumann", "McCarthy", "Turing", "Lovelace", "Church", "Babbage", "Hopper", "Library"];
 
 	var App = React.createClass({
 	  displayName: 'App',
 
-	  handleTestClick: function handleTestClick() {
-	    console.log("www.recurse.com/oauth/authorize");
-	  },
+	  handleTestClick: function handleTestClick() {},
 
 	  render: function render() {
 	    return React.createElement(
