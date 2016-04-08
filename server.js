@@ -8,6 +8,9 @@ var session = require("express-session")({
   saveUninitialized: true
 });
 app.use(session)
+var request = require('request');
+
+
 
 var PORT = process.env.PORT || 3000;
 
@@ -76,9 +79,22 @@ app.get('/callback', function (req, res) {
       res.redirect("/auth")}
 
     req.session.token = oauth.accessToken.create(result);
+    console.log("access token",req.session.token)
+   
+
+    request('https://www.recurse.com/api/v1/people/me?access_token=' + req.session.token.token.access_token, 
+      function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+        req.session.user = body
+        console.log("PASSED", body)
+      } else {console.log("FAILED", body)}
+    })
+
     res.redirect("/checkins");
   }
-});
+})
+
+
 
 //ONCE LOGGED IN--------------------------------------------------------------------------------------------------------
 
