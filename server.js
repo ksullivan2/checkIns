@@ -48,7 +48,7 @@ app.get('/auth', function (req, res) {
 })
 
 
-var token; 
+var token = null; 
 
 // Callback service parsing the authorization token and asking for the access token
 app.get('/callback', function (req, res) {
@@ -74,9 +74,11 @@ app.get('/callback', function (req, res) {
 
 
 app.get('/checkins', function(req,res) {
-  res.send(token)
-  console.log(token)
-  // res.sendFile(path.join(__dirname, "/checkInsIndex.html"));
+  if (token !== null){
+    res.sendFile(path.join(__dirname, "/checkInsIndex.html"));
+  }
+  else {res.redirect("/auth")}
+
 });
 
 app.listen(PORT, function() {
