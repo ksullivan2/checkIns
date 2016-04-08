@@ -8,10 +8,10 @@ var PORT = process.env.PORT || 3000;
 
 //OAUTH STUFF
 var credentials = {
- clientID: "6135730e4b5a495af7f6e6596253e475d2aab271c9e7f060df5360fc230c8379",
- clientSecret: "4fdf5d95fe111b2caabf8deea68061ea35fcc1d00a5c3270294965839360a4e8",
+ clientID: "34470edff3fc9aac0c6895b6c0fab87e27f026c33bf8a2015b2dc51905032012",
+ clientSecret: "8fe080b72de0b753613d3c6397aadce961ca8f524068480eec8dbf42f607b1e9",
  site: "http://recurse.com",
- redirect_uri: 'https://rccheckins.herokuapp.com'
+ redirect_uri: 'https://rccheckins.herokuapp.com/callback'
 }
 
 var oauth = require('simple-oauth2')(credentials)
@@ -25,33 +25,40 @@ var authorization_uri = oauth.authCode.authorizeURL({
 
 // Initial page redirecting
 app.get('/auth', function (req, res) {
+	console.log("/auth")
     res.redirect(authorization_uri);
 })
 
 
+var token; 
+
 // Callback service parsing the authorization token and asking for the access token
-app.get('/', function (req, res) {
+app.get('/callback', function (req, res) {
+	console.log("/callback")
   var code = req.query.code;
 
-  oauth2.authCode.getToken({
+  oauth.authCode.getToken({
     code: code,
-    redirect_uri: 'https://rccheckins.herokuapp.com/callback'
+    redirect_uri: credentials.redirect_uri
   }, saveToken);
 
   function saveToken(error, result) {
     if (error) { console.log('Access Token Error', error.message); }
-    token = oauth2.accessToken.create(result);
-    console.log("TOKEN IS ",token)
-    res.send(token)
+    token = oauth.accessToken.create(result);
+    console.log("TOKEN IS ",oauth.accessToken)
   }
+
+  res.send("TEST")
 });
 
 
-// app.get('/', function (req, res) {
-//   res.send('Hello<br><a href="/auth">Log in with RC</a>');
-// });
+app.get('/', function (req, res) {
+	console.log("what GET SHOULD be fetching")
+  res.send('Hello<br><a href="/auth">Log in with RC</a>');
+});
 
 // app.get('/', function(req,res) {
+//   console.log("IN COMMMENT")
 //   res.sendFile('/index.html');
 // });
 
