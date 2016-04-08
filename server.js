@@ -12,6 +12,7 @@ var request = require('request');
 
 
 
+
 var PORT = process.env.PORT || 3000;
 
 app.get('/', function (req, res) {
@@ -86,7 +87,7 @@ app.get('/callback', function (req, res) {
       function (error, response, body) {
         if (!error && response.statusCode == 200) {
         req.session.user = body
-        console.log("PASSED", body)
+        
       } else {console.log("FAILED", body)}
     })
 
@@ -107,6 +108,12 @@ app.get('/checkins', function(req,res) {
   else {res.redirect("/auth")}
 
 });
+
+
+app.get('/username', function(req, res){
+  // res.send({test: "TEST USERNAME")
+  res.json({test:"TEST USERNAME"})
+})
 
 app.listen(PORT, function() {
   console.log('Server is listening on port '+ PORT);

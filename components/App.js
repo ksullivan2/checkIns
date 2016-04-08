@@ -1,7 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Room = require('./Room');
-// var $ = require ('jquery');
 
 
 
@@ -14,7 +13,13 @@ var RoomList = ["Djikstra", "Von Neumann", "McCarthy", "Turing", "Lovelace", "Ch
 
 
 var App = React.createClass({
-	handleTestClick: function(){
+	componentDidMount: function(){
+		fetch('/username')
+		.then(function(response) {
+		  return response.json();
+		}).then (function(json){
+			console.log(json)
+		})
 		
 	},
 

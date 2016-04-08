@@ -49,14 +49,19 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var Room = __webpack_require__(159);
-	// var $ = require ('jquery');
 
 	var RoomList = ["Djikstra", "Von Neumann", "McCarthy", "Turing", "Lovelace", "Church", "Babbage", "Hopper", "Library"];
 
 	var App = React.createClass({
 	  displayName: 'App',
 
-	  handleTestClick: function handleTestClick() {},
+	  componentDidMount: function componentDidMount() {
+	    fetch('/username').then(function (response) {
+	      return response.json();
+	    }).then(function (json) {
+	      console.log(json);
+	    });
+	  },
 
 	  render: function render() {
 	    return React.createElement(
