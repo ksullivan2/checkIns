@@ -81,15 +81,14 @@ app.get('/callback', function (req, res) {
       res.redirect("/auth")}
 
     req.session.token = oauth.accessToken.create(result);
-    // console.log("access token",req.session.token)
+  
    
 
     request('https://www.recurse.com/api/v1/people/me?access_token=' + req.session.token.token.access_token, 
       function (error, response, body) {
         if (!error && response.statusCode == 200) {
         req.session.user = body
-       
-        // console.log("IN SAVE TOKEN", req.session)
+
         res.redirect("/checkins");
         
       } else {console.log("FAILED", body)}
@@ -115,10 +114,8 @@ app.get('/checkins', function(req,res) {
 
 
 app.get('/username', function(req,res){
-  // console.log("SESSION AT ALL?", req.session)
-  console.log("IN USERNAME", req.session.user)
-  // res.json({firstName: "test", lastName: "test"})
-  res.json({firstName:req.session.user.first_name, lastName: req.session.user.last_name})
+  var user = JSON.parse(req.session.user)
+  res.json({firstName: user["first_name"], lastName: user["last_name"]})
 })
 
 app.listen(PORT, function() {
